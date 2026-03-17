@@ -1,7 +1,10 @@
 import cv2
 import time
 
+from handTracker import HandTracker
+
 webcam = cv2.VideoCapture(0)
+tracker = HandTracker()
 time.sleep(2)
 
 lastFrameTime = 0
@@ -32,6 +35,7 @@ while True:
         2
     )
 
+    frame = tracker.findHands(frame)
     cv2.imshow("Domain Expansion", frame)
     cv2.waitKey(1)
 
