@@ -35,7 +35,7 @@ while True:
         2
     )
 
-    frame = tracker.findHands(frame)
+    frame, hands = tracker.findHands(frame)
     cv2.imshow("Domain Expansion", frame)
     cv2.waitKey(1)
 

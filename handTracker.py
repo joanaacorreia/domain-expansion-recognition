@@ -11,6 +11,8 @@ class HandTracker:
         rgbFrame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         result = self.detector.process(rgbFrame)
         
+        bothHands = []
+        
         if result.multi_hand_landmarks:
             for handLandmarks in result.multi_hand_landmarks:
                 self.drawingTool.draw_landmarks(
@@ -19,4 +21,11 @@ class HandTracker:
                     mp.solutions.hands.HAND_CONNECTIONS
                 )
                 
-        return frame
+                oneHand = []
+                
+                for landmark in handLandmarks.landmark:
+                    oneHand.append([landmark.x, landmark.y, landmark.z])
+                
+                bothHands.append(oneHand)
+                
+        return frame, bothHands
