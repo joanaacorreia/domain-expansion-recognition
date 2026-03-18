@@ -2,9 +2,12 @@ import cv2
 import time
 
 from handTracker import HandTracker
+from signClassifier import SignClassifier
 
 webcam = cv2.VideoCapture(0)
 tracker = HandTracker()
+classifier = SignClassifier()
+
 time.sleep(2)
 
 lastFrameTime = 0
@@ -30,12 +33,25 @@ while True:
         f"FPS: {int(fps)}", 
         (10, 30), 
         cv2.FONT_HERSHEY_PLAIN, 
-        1, 
+        2, 
         (255,105,180), 
         2
     )
 
     frame, hands = tracker.findHands(frame)
+    
+    detectedSign = classifier.classify(hands)
+    if detectedSign:
+        cv2.putText(
+            frame, 
+            detectedSign, 
+            (10, 70), 
+            cv2.FONT_HERSHEY_PLAIN, 
+            2, 
+            (255,105,180), 
+            2
+        )
+    
     cv2.imshow("Domain Expansion", frame)
     cv2.waitKey(1)
 

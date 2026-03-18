@@ -7,6 +7,7 @@ class HandTracker:
         self.detector = mp.solutions.hands.Hands()
         self.drawingTool = mp.solutions.drawing_utils
         
+        
     def findHands(self, frame):
         rgbFrame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         result = self.detector.process(rgbFrame)
