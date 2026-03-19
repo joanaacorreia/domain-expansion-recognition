@@ -48,7 +48,7 @@ class SignClassifier:
         mcpY = landmarks[mcpId][1]
         
         return tipY > dipY and tipY < mcpY
-        
+    
     
     def detectMalevolentShrine(self, hands): 
         # sign is symmetrical, only need one hand
@@ -97,7 +97,44 @@ class SignClassifier:
 
     
     def detectChimeraShadowGarden(self, hands):
-        pass
+        if len(hands) < 2:
+            return False
+        
+        hand1 = hands[0]
+        hand2 = hands[1]
+        
+        # check if hands are closed together
+        wrist1X = hand1[0][0]  
+        wrist2X = hand2[0][0]
+        handsClose = abs(wrist1X - wrist2X) < 0.2
+        
+        # hand1 : all fingers down, thumb up
+        index1Down = not self.isFingerUp(hand1, 8, 6)
+        middle1Down = not self.isFingerUp(hand1, 12, 10)
+        ring1Down = not self.isFingerUp(hand1, 16, 14)
+        pinky1Down = not self.isFingerUp(hand1, 20, 18)
+        thumb1Up = self.isThumbUp(hand1, 4, 2)
+        
+        # hand2 : all fingers down, thumb up
+        index2Down = not self.isFingerUp(hand2, 8, 6)
+        middle2Down = not self.isFingerUp(hand2, 12, 10)
+        ring2Down = not self.isFingerUp(hand2, 16, 14)
+        pinky2Down = not self.isFingerUp(hand2, 20, 18)
+        thumb2Up = self.isThumbUp(hand2, 4, 2)
+        
+        return all([
+            handsClose,
+            index1Down,
+            middle1Down,
+            ring1Down,
+            pinky1Down,
+            thumb1Up,
+            index2Down,
+            middle2Down,
+            ring2Down,
+            pinky2Down,
+            thumb2Up
+        ])
     
     
     def detectSelfEmbodimentPerfection(self, hands):
