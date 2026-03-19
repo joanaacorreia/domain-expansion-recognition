@@ -51,24 +51,41 @@ class SignClassifier:
     
     
     def detectMalevolentShrine(self, hands): 
-        # sign is symmetrical, only need one hand
-        hand = hands[0]
+        if len(hands) < 2:
+            return False
+    
+        hand1 = hands[0]
+        hand2 = hands[1]
         
-        # index and pinky down
-        indexDown = not self.isFingerUp(hand, 8, 6) 
-        pinkyDown = not self.isFingerUp(hand, 20, 18)
+        # hand1 : index and pinky down
+        index1Down = not self.isFingerUp(hand1, 8, 6) 
+        pinky1Down = not self.isFingerUp(hand1, 20, 18)
         
-        # middle, ring, and thumb up
-        middleUp = self.isFingerUp(hand, 12, 10)
-        ringUp = self.isFingerUp(hand, 16, 14)
-        thumbUp = self.isThumbUp(hand, 4, 2)
+        # hand1 : middle, ring, and thumb up
+        middle1Up = self.isFingerUp(hand1, 12, 10)
+        ring1Up = self.isFingerUp(hand1, 16, 14)
+        thumb1Up = self.isThumbUp(hand1, 4, 2)
+        
+        # hand2 : index and pinky down
+        index2Down = not self.isFingerUp(hand2, 8, 6)
+        pinky2Down = not self.isFingerUp(hand2, 20, 18)
+        
+        # hand2 : middle, ring, and thumb up
+        middle2Up = self.isFingerUp(hand2, 12, 10)
+        ring2Up = self.isFingerUp(hand2, 16, 14)
+        thumb2Up = self.isThumbUp(hand2, 4, 2)
         
         return all([
-            indexDown, 
-            pinkyDown, 
-            middleUp, 
-            ringUp, 
-            thumbUp
+            index1Down, 
+            pinky1Down, 
+            middle1Up, 
+            ring1Up, 
+            thumb1Up,
+            index2Down,
+            pinky2Down,
+            middle2Up,
+            ring2Up,
+            thumb2Up
         ])
     
     
