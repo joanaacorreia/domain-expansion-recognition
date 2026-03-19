@@ -75,18 +75,10 @@ class SignClassifier:
         ring2Up = self.isFingerUp(hand2, 16, 14)
         thumb2Up = self.isThumbUp(hand2, 4, 2)
         
-        return all([
-            index1Down, 
-            pinky1Down, 
-            middle1Up, 
-            ring1Up, 
-            thumb1Up,
-            index2Down,
-            pinky2Down,
-            middle2Up,
-            ring2Up,
-            thumb2Up
-        ])
+        hand1Match = all([index1Down, pinky1Down, middle1Up, ring1Up, thumb1Up])
+        hand2Match = all([index2Down, pinky2Down, middle2Up, ring2Up, thumb2Up])
+        
+        return hand1Match and hand2Match
     
     
     def detectUnlimitedVoid(self, hands):
@@ -104,13 +96,9 @@ class SignClassifier:
         # middle bent
         middleBent = self.isFingerBent(hand, 12, 11, 9)
         
-        return all([
-            indexUp, 
-            thumbUp, 
-            ringDown, 
-            pinkyDown,
-            middleBent
-        ])
+        handMatch = all([indexUp, thumbUp, ringDown, pinkyDown, middleBent])
+        
+        return handMatch
 
     
     def detectChimeraShadowGarden(self, hands):
@@ -139,19 +127,10 @@ class SignClassifier:
         pinky2Down = not self.isFingerUp(hand2, 20, 18)
         thumb2Up = self.isThumbUp(hand2, 4, 2)
         
-        return all([
-            handsClose,
-            index1Down,
-            middle1Down,
-            ring1Down,
-            pinky1Down,
-            thumb1Up,
-            index2Down,
-            middle2Down,
-            ring2Down,
-            pinky2Down,
-            thumb2Up
-        ])
+        hand1Match = all([index1Down, middle1Down, ring1Down, pinky1Down, thumb1Up])
+        hand2Match = all([index2Down, middle2Down, ring2Down, pinky2Down, thumb2Up])
+        
+        return handsClose and hand1Match and hand2Match
     
     
     def detectSelfEmbodimentPerfection(self, hands):
